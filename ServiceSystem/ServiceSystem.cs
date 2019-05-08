@@ -9,7 +9,7 @@ namespace Service
     {
         private Dictionary<Type, IService> services;
 
-        public void RegisterService<T>(IService service, int order = 0) where T : IService
+        public void RegisterService<T>(IService service) where T : IService
         {
             services.Add(typeof(T), service);
         }
