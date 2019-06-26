@@ -87,8 +87,16 @@ namespace BuildPipline
             {
                 output = channelData["Package"].AsString() + "_v" + channelData["Version"].AsString() + "_" + channelData["Channel"].AsString() + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".apk";
             }
-
-            string error = BuildPipeline.BuildPlayer(buildScenes, output, BuildTarget.Android, BuildOptions.None);
+            BuildOptions buildOptions = BuildOptions.None;
+            if(HasArg("-debug"))
+            {
+                buildOptions |= BuildOptions.Development | BuildOptions.AllowDebugging;
+            }
+            if(HasArg("-profiler"))
+            {
+                buildOptions |= BuildOptions.Development | BuildOptions.ConnectWithProfiler;
+            }
+            string error = BuildPipeline.BuildPlayer(buildScenes, output, BuildTarget.Android, buildOptions);
             if (error != null && error.Length > 0)
             {
                 Debug.LogError(error);
